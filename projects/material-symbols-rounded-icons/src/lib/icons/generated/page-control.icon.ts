@@ -4,7 +4,6 @@ import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
 
 @Component({
   selector: 'msr-page-control-icon',
-  standalone: true,
   imports: [MsrIconSvgDirective],
   hostDirectives: [MsrIconHostDirective],
   template: `<svg

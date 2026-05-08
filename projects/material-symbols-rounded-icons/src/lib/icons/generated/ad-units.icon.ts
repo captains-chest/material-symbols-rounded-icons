@@ -4,7 +4,6 @@ import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
 
 @Component({
   selector: 'msr-ad-units-icon',
-  standalone: true,
   imports: [MsrIconSvgDirective],
   hostDirectives: [MsrIconHostDirective],
   template: `<svg

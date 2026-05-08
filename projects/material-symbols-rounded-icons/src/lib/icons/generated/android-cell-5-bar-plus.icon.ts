@@ -4,7 +4,6 @@ import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
 
 @Component({
   selector: 'msr-android-cell-5-bar-plus-icon',
-  standalone: true,
   imports: [MsrIconSvgDirective],
   hostDirectives: [MsrIconHostDirective],
   template: `<svg

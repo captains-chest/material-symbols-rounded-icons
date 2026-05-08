@@ -4,7 +4,6 @@ import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
 
 @Component({
   selector: 'msr-18-up-rating-icon',
-  standalone: true,
   imports: [MsrIconSvgDirective],
   hostDirectives: [MsrIconHostDirective],
   template: `<svg

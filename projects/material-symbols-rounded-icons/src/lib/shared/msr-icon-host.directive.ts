@@ -1,12 +1,12 @@
-import { Directive, HostBinding } from '@angular/core';
+import { Directive } from '@angular/core';
 
 @Directive({
   selector: '[msrIconHost]',
-  standalone: true,
+  host: {
+    '[style.display]': '"flex"',
+    '[style.flex]': '"1 1 auto"',
+    '[style.min-width]': '"0"',
+    '[style.min-height]': '"0"',
+  },
 })
-export class MsrIconHostDirective {
-  @HostBinding('style.display') protected readonly display = 'flex';
-  @HostBinding('style.flex') protected readonly flex = '1 1 auto';
-  @HostBinding('style.min-width') protected readonly minWidth = '0';
-  @HostBinding('style.min-height') protected readonly minHeight = '0';
-}
+export class MsrIconHostDirective {}
