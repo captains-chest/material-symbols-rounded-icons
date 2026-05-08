@@ -1,6 +1,6 @@
 {
   "name": "@captains-chest/material-symbols-rounded-icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standalone Angular Material Symbols Rounded icon components with embedded SVG templates.",
   "license": "Apache-2.0",
   "repository": {
@@ -21,6 +21,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "fesm2022/*.mjs",
+    "types/**/*.d.ts",
+    "README.md",
+    "LICENSE-THIRD-PARTY.md",
+    "package.json"
+  ],
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0"

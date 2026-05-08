@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:lib": "ng build material-symbols-rounded-icons",
+    "build:lib": "ng build material-symbols-rounded-icons && node tools/icons/strip-sourcemap-comment.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "sync:icons": "node tools/icons/sync-material-symbols-rounded.mjs",
