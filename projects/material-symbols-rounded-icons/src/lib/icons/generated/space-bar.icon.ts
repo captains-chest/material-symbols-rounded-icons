@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-space-bar-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M240-360q-33 0-56.5-23.5T160-440v-120q0-17 11.5-28.5T200-600q17 0 28.5 11.5T240-560v120h480v-120q0-17 11.5-28.5T760-600q17 0 28.5 11.5T800-560v120q0 33-23.5 56.5T720-360H240Z"/>
+</svg>`,
+})
+export class MsrSpaceBarIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

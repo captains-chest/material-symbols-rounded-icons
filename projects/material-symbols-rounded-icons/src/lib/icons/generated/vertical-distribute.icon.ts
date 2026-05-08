@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-vertical-distribute-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M120-80q-17 0-28.5-11.5T80-120q0-17 11.5-28.5T120-160h720q17 0 28.5 11.5T880-120q0 17-11.5 28.5T840-80H120Zm220-340q-25 0-42.5-17.5T280-480q0-25 17.5-42.5T340-540h280q25 0 42.5 17.5T680-480q0 25-17.5 42.5T620-420H340ZM120-800q-17 0-28.5-11.5T80-840q0-17 11.5-28.5T120-880h720q17 0 28.5 11.5T880-840q0 17-11.5 28.5T840-800H120Z"/>
+</svg>`,
+})
+export class MsrVerticalDistributeIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

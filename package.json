@@ -5,8 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build material-symbols-rounded-icons",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "sync:icons": "node tools/icons/sync-material-symbols-rounded.mjs",
+    "sync:icons:sample": "node tools/icons/sync-material-symbols-rounded.mjs --sample",
+    "verify:generated": "npm run sync:icons && git diff --exit-code -- projects/material-symbols-rounded-icons/src/lib/icons projects/material-symbols-rounded-icons/src/lib/generated",
+    "test:smoke": "node tools/icons/smoke-check.mjs",
+    "ci:baseline": "npm run verify:generated && npm run build:lib && npm run test:smoke",
+    "storybook": "ng run icon-pack:storybook",
+    "build-storybook": "ng run icon-pack:build-storybook"
   },
   "private": true,
   "packageManager": "npm@11.11.0",
@@ -24,8 +32,13 @@
     "@angular/build": "^21.2.6",
     "@angular/cli": "^21.2.6",
     "@angular/compiler-cli": "^21.2.0",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/angular": "^10.3.6",
     "jsdom": "^28.0.0",
+    "ng-packagr": "^21.2.0",
     "prettier": "^3.8.1",
+    "storybook": "^10.3.6",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

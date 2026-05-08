@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-humidity-mid-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M480-100q-133 0-226.5-92T160-416q0-63 24.5-120.5T254-638l226-222 226 222q45 44 69.5 101.5T800-416q0 132-93.5 224T480-100ZM240-416h480q0-47-18-89.5T650-580L480-748 310-580q-34 32-52 74.5T240-416Z"/>
+</svg>`,
+})
+export class MsrHumidityMidIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

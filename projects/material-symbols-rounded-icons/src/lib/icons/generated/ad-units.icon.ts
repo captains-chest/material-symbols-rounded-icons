@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-ad-units-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M360-600q-17 0-28.5-11.5T320-640q0-17 11.5-28.5T360-680h240q17 0 28.5 11.5T640-640q0 17-11.5 28.5T600-600H360ZM280-40q-33 0-56.5-23.5T200-120v-720q0-33 23.5-56.5T280-920h400q33 0 56.5 23.5T760-840v720q0 33-23.5 56.5T680-40H280Zm0-120v40h400v-40H280Zm0-80h400v-480H280v480Zm0-560h400v-40H280v40Zm0 0v-40 40Zm0 640v40-40Z"/>
+</svg>`,
+})
+export class MsrAdUnitsIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

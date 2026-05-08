@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-point-scan-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm-40-280v-120q0-17 11.5-28.5T480-840q17 0 28.5 11.5T520-800v120q0 17-11.5 28.5T480-640q-17 0-28.5-11.5T440-680Zm0 520v-120q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280v120q0 17-11.5 28.5T480-120q-17 0-28.5-11.5T440-160Zm240-360h120q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H680q-17 0-28.5-11.5T640-480q0-17 11.5-28.5T680-520Zm-520 0h120q17 0 28.5 11.5T320-480q0 17-11.5 28.5T280-440H160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520Z"/>
+</svg>`,
+})
+export class MsrPointScanIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

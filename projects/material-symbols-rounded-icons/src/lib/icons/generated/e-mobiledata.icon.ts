@@ -1,0 +1,23 @@
+import { Component, input } from '@angular/core';
+import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
+import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+
+@Component({
+  selector: 'msr-e-mobiledata-icon',
+  standalone: true,
+  imports: [MsrIconSvgDirective],
+  hostDirectives: [MsrIconHostDirective],
+  template: `<svg
+  msrIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M360-280q-17 0-28.5-11.5T320-320v-320q0-17 11.5-28.5T360-680h240q17 0 28.5 11.5T640-640q0 17-11.5 28.5T600-600H400v80h200q17 0 28.5 11.5T640-480q0 17-11.5 28.5T600-440H400v80h200q17 0 28.5 11.5T640-320q0 17-11.5 28.5T600-280H360Z"/>
+</svg>`,
+})
+export class MsrEMobiledataIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

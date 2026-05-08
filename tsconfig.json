@@ -6,6 +6,11 @@
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
+    "paths": {
+      "@captains-chest/material-symbols-rounded-icons": [
+        "./projects/material-symbols-rounded-icons/src/public-api.ts"
+      ]
+    },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
@@ -28,6 +33,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/material-symbols-rounded-icons/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/material-symbols-rounded-icons/tsconfig.spec.json"
     }
   ]
 }

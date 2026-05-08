@@ -1,59 +1,34 @@
-# IconPack
+# @captains-chest/material-symbols-rounded-icons workspace
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.6.
+Angular workspace for a publishable Material Symbols Rounded icon library with a Storybook playground.
 
-## Development server
+## Projects
 
-To start a local development server, run:
+- `projects/material-symbols-rounded-icons`: publishable standalone component library
+- `stories/` + `.storybook/`: Storybook catalog browser playground
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Core commands
 
 ```bash
-ng generate component component-name
+npm run sync:icons       # fetch + generate icon components from pinned upstream source
+npm run build:lib        # build publishable Angular library
+npm run storybook        # run Storybook playground
+npm run ci:baseline      # determinism + build + smoke checks
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Generation scope
 
-```bash
-ng generate --help
-```
+By default, `npm run sync:icons` generates the full Material Symbols Rounded set at the pinned upstream ref.
 
-## Building
+For fast local checks, use `npm run sync:icons:sample` to generate the sample list from `tools/icons/sample-icons.txt`.
 
-To build the project run:
+The sync pipeline is pinned by `tools/icons/upstream.json`:
+- family: Material Symbols Rounded
+- variant: FILL=0, wght=400, GRAD=0, opsz=24
 
-```bash
-ng build
-```
+## Accessibility and rendering contract
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- decorative-first (`aria-hidden` default)
+- optional `ariaLabel` turns icon into `role="img"`
+- `currentColor` fill
+- host + SVG contract for container-driven sizing in flex layouts

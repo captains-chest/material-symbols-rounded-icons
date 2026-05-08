@@ -1,0 +1,13 @@
+{
+  "owner": "google",
+  "repo": "material-design-icons",
+  "ref": "5a4e1b7fd26f11ce3d2abf7d7fcd13274f874e6c",
+  "symbolFamily": "materialsymbolsrounded",
+  "variant": {
+    "fill": 0,
+    "wght": 400,
+    "grad": 0,
+    "opsz": 24,
+    "fileSuffix": "_24px.svg"
+  }
+}
