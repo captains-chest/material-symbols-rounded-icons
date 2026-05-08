@@ -14,7 +14,10 @@
     "test:smoke": "node tools/icons/smoke-check.mjs",
     "ci:baseline": "npm run verify:generated && npm run build:lib && npm run test:smoke",
     "storybook": "ng run icon-pack:storybook",
-    "build-storybook": "ng run icon-pack:build-storybook"
+    "build-storybook": "ng run icon-pack:build-storybook",
+    "release:prepare": "npm run ci:baseline && npm run build:lib",
+    "release:check": "npm run release:prepare && cd dist/material-symbols-rounded-icons && npm pack --dry-run",
+    "release:publish": "npm run release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public"
   },
   "private": true,
   "packageManager": "npm@11.11.0",

@@ -14,6 +14,8 @@ npm run sync:icons       # fetch + generate icon components from pinned upstream
 npm run build:lib        # build publishable Angular library
 npm run storybook        # run Storybook playground
 npm run ci:baseline      # determinism + build + smoke checks
+npm run release:check    # full pre-publish validation + npm pack dry-run
+npm run release:publish  # publish dist package to npm
 ```
 
 ## Generation scope

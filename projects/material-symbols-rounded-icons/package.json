@@ -1,6 +1,26 @@
 {
   "name": "@captains-chest/material-symbols-rounded-icons",
   "version": "0.1.0",
+  "description": "Standalone Angular Material Symbols Rounded icon components with embedded SVG templates.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@codeberg.org/captainDuckay/material-symbols-rounded-icons.git"
+  },
+  "homepage": "https://codeberg.org/captainDuckay/material-symbols-rounded-icons",
+  "bugs": {
+    "url": "https://codeberg.org/captainDuckay/material-symbols-rounded-icons/issues"
+  },
+  "keywords": [
+    "angular",
+    "icons",
+    "material symbols",
+    "svg",
+    "standalone components"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0"
