@@ -3,11 +3,36 @@
   "repo": "material-design-icons",
   "ref": "5a4e1b7fd26f11ce3d2abf7d7fcd13274f874e6c",
   "symbolFamily": "materialsymbolsrounded",
-  "variant": {
-    "fill": 0,
-    "wght": 400,
-    "grad": 0,
-    "opsz": 24,
-    "fileSuffix": "_24px.svg"
+  "targets": {
+    "outline": {
+      "id": "outline",
+      "projectPath": "projects/material-symbols-rounded-icons",
+      "packageName": "@captains-chest/material-symbols-rounded-icons",
+      "selectorPrefix": "msr",
+      "classPrefix": "Msr",
+      "directivePrefix": "msr",
+      "variant": {
+        "fill": 0,
+        "wght": 400,
+        "grad": 0,
+        "opsz": 24,
+        "fileSuffix": "_24px.svg"
+      }
+    },
+    "filled": {
+      "id": "filled",
+      "projectPath": "projects/material-symbols-rounded-icons-filled",
+      "packageName": "@captains-chest/material-symbols-rounded-icons-filled",
+      "selectorPrefix": "msrf",
+      "classPrefix": "Msrf",
+      "directivePrefix": "msrf",
+      "variant": {
+        "fill": 1,
+        "wght": 400,
+        "grad": 0,
+        "opsz": 24,
+        "fileSuffix": "_fill1_24px.svg"
+      }
+    }
   }
 }

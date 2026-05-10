@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-sync-saved-locally-off-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M728-120H80q-17 0-28.5-11.5T40-160q0-17 11.5-28.5T80-200h567l-40-40H160q-33 0-56.5-23.5T80-320v-446l-25-26q-11-12-11-28t12-28q11-11 28-11t28 11l736 736q11 11 11 28t-11 28q-11 11-28 11t-28-11l-64-64Zm100-126L557-517l78-79q12-12 12.5-28.5T636-653q-12-12-28.5-12T579-653l-79 79-266-266h566q33 0 56.5 23.5T880-760v440q0 26-14.5 45.5T828-246Z"/>
+</svg>`,
+})
+export class MsrfSyncSavedLocallyOffIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

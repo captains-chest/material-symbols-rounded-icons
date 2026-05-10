@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-align-start-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M120-800q-17 0-28.5-11.5T80-840q0-17 11.5-28.5T120-880h720q17 0 28.5 11.5T880-840q0 17-11.5 28.5T840-800H120Zm200 240q-17 0-28.5-11.5T280-600v-40q0-17 11.5-28.5T320-680h320q17 0 28.5 11.5T680-640v40q0 17-11.5 28.5T640-560H320Zm0 240q-17 0-28.5-11.5T280-360v-40q0-17 11.5-28.5T320-440h320q17 0 28.5 11.5T680-400v40q0 17-11.5 28.5T640-320H320Z"/>
+</svg>`,
+})
+export class MsrfAlignStartIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

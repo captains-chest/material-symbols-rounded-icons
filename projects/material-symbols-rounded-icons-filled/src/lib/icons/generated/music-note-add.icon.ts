@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-music-note-add-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M480-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T560-418v-382q0-17 11.5-28.5T600-840h160q17 0 28.5 11.5T800-800v80q0 17-11.5 28.5T760-680H640v400q0 66-47 113t-113 47ZM280-640h-80q-17 0-28.5-11.5T160-680q0-17 11.5-28.5T200-720h80v-80q0-17 11.5-28.5T320-840q17 0 28.5 11.5T360-800v80h80q17 0 28.5 11.5T480-680q0 17-11.5 28.5T440-640h-80v80q0 17-11.5 28.5T320-520q-17 0-28.5-11.5T280-560v-80Z"/>
+</svg>`,
+})
+export class MsrfMusicNoteAddIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

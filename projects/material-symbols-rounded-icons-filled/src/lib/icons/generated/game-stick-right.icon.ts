@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-game-stick-right-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M680-346v106q0 33-23.5 56.5T600-160H360q-33 0-56.5-23.5T280-240v-106q-91-32-145.5-87.5T80-557q0-101 116.5-172T480-800q167 0 283.5 71T880-557q0 68-54.5 123.5T680-346ZM427-454q8 0 14-6t6-14v-52h28l46 64q2 4 6 6t9 2q12 0 17.5-11t-2.5-20l-37-47q20-7 30.5-21.5T555-590q0-30-19.5-47T485-654h-58q-8 0-14 6t-6 14v160q0 8 6 14t14 6Zm20-102v-63h31q16 0 26 8.5t10 23.5q0 16-10 23.5t-27 7.5h-30Z"/>
+</svg>`,
+})
+export class MsrfGameStickRightIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

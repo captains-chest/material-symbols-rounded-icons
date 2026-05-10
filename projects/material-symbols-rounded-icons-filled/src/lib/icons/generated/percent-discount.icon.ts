@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-percent-discount-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M480-80q-24 0-46-9t-39-26q-29-29-50-38t-63-9q-50 0-85-35t-35-85q0-42-9-63t-38-50q-17-17-26-39t-9-46q0-24 9-46t26-39q29-29 38-50t9-63q0-50 35-85t85-35q42 0 63-9t50-38q17-17 39-26t46-9q24 0 46 9t39 26q29 29 50 38t63 9q50 0 85 35t35 85q0 42 9 63t38 50q17 17 26 39t9 46q0 24-9 46t-26 39q-29 29-38 50t-9 63q0 50-35 85t-85 35q-42 0-63 9t-50 38q-17 17-39 26t-46 9Zm100-240q25 0 42.5-17.5T640-380q0-25-17.5-42.5T580-440q-25 0-42.5 17.5T520-380q0 25 17.5 42.5T580-320Zm-230-30q12 12 28 12t28-12l204-203q12-12 12-28.5T610-610q-12-12-28.5-12T553-610L350-406q-12 12-12 28t12 28Zm30-170q25 0 42.5-17.5T440-580q0-25-17.5-42.5T380-640q-25 0-42.5 17.5T320-580q0 25 17.5 42.5T380-520Z"/>
+</svg>`,
+})
+export class MsrfPercentDiscountIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

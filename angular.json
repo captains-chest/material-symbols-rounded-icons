@@ -112,6 +112,32 @@
           }
         }
       }
+    },
+    "material-symbols-rounded-icons-filled": {
+      "projectType": "library",
+      "root": "projects/material-symbols-rounded-icons-filled",
+      "sourceRoot": "projects/material-symbols-rounded-icons-filled/src",
+      "prefix": "msrf",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/material-symbols-rounded-icons-filled/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/material-symbols-rounded-icons-filled/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/material-symbols-rounded-icons-filled/tsconfig.spec.json"
+          }
+        }
+      }
     }
   }
 }

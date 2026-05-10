@@ -1,17 +1,18 @@
 # @captains-chest/material-symbols-rounded-icons workspace
 
-Angular workspace for a publishable Material Symbols Rounded icon library with a Storybook playground.
+Angular workspace for publishable Material Symbols Rounded icon libraries (outline + filled) with a Storybook playground.
 
 ## Projects
 
-- `projects/material-symbols-rounded-icons`: publishable standalone component library
+- `projects/material-symbols-rounded-icons`: publishable outline standalone component library
+- `projects/material-symbols-rounded-icons-filled`: publishable filled standalone component library
 - `stories/` + `.storybook/`: Storybook catalog browser playground
 
 ## Core commands
 
 ```bash
-npm run sync:icons       # fetch + generate icon components from pinned upstream source
-npm run build:lib        # build publishable Angular library
+npm run sync:icons       # fetch + generate icon components for outline + filled from pinned upstream source
+npm run build:lib        # build both publishable Angular libraries
 npm run storybook        # run Storybook playground
 npm run ci:baseline      # determinism + build + smoke checks
 npm run release:check    # full pre-publish validation + npm pack dry-run
@@ -20,13 +21,14 @@ npm run release:publish  # publish dist package to npm
 
 ## Generation scope
 
-By default, `npm run sync:icons` generates the full Material Symbols Rounded set at the pinned upstream ref.
+By default, `npm run sync:icons` generates the full Material Symbols Rounded set for both outline and filled variants at the pinned upstream ref.
 
 For fast local checks, use `npm run sync:icons:sample` to generate the sample list from `tools/icons/sample-icons.txt`.
 
 The sync pipeline is pinned by `tools/icons/upstream.json`:
 - family: Material Symbols Rounded
-- variant: FILL=0, wght=400, GRAD=0, opsz=24
+- outline variant: FILL=0, wght=400, GRAD=0, opsz=24
+- filled variant: FILL=1, wght=400, GRAD=0, opsz=24
 
 ## Accessibility and rendering contract
 

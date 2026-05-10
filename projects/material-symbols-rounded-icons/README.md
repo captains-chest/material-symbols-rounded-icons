@@ -1,6 +1,6 @@
 # @captains-chest/material-symbols-rounded-icons
 
-Standalone Angular icon components generated from Material Symbols Rounded.
+Standalone Angular outline icon components generated from Material Symbols Rounded.
 
 ## Usage
 
@@ -20,3 +20,11 @@ Each icon component supports optional `ariaLabel` input:
 ```html
 <msr-home-icon [ariaLabel]="'Home'" />
 ```
+
+## Upstream availability disclaimer
+
+This package only publishes icons that exist upstream for Material Symbols Rounded (outline variant) at the pinned source ref used for this release.
+
+Authoritative source for release availability: `ICON_MANIFEST.source` in this package.
+
+Catalog browser (mutable, for discovery only): https://fonts.google.com/icons?icon.style=Rounded

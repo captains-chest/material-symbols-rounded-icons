@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-speed-4-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M448-328q34 14 65.5 2.5T555-372q22-74 40-146t34-145q4-18-12.5-25.5T589-682q-46 60-90.5 119.5T410-440q-21 30-6.5 64t44.5 48ZM205-160q-22 0-40.5-9.5T135-198q-28-48-42-100.5T79-406q1-80 34-151.5T201-683q55-54 127-85.5T480-800q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-400q0 54-14 105t-40 97q-11 19-30 28.5t-40 9.5H205Z"/>
+</svg>`,
+})
+export class MsrfSpeed4IconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

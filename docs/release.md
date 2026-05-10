@@ -18,9 +18,10 @@ npm run release:check
 
 This runs:
 - deterministic generation check
-- library build
-- smoke checks
+- both library builds
+- smoke checks (outline + filled)
 - npm pack dry-run from `dist/material-symbols-rounded-icons`
+- npm pack dry-run from `dist/material-symbols-rounded-icons-filled`
 
 ## Publish
 
@@ -35,7 +36,8 @@ npm run release:publish
 git tag v0.1.0
 git push origin v0.1.0
 ```
-2. Verify package on npm:
+2. Verify packages on npm:
 ```bash
 npm view @captains-chest/material-symbols-rounded-icons version
+npm view @captains-chest/material-symbols-rounded-icons-filled version
 ```

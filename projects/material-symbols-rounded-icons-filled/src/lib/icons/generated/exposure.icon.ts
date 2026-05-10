@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-exposure-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560L200-200Zm380-120h-50q-13 0-21.5-8.5T500-350q0-13 8.5-21.5T530-380h50v-50q0-13 8.5-21.5T610-460q13 0 21.5 8.5T640-430v50h50q13 0 21.5 8.5T720-350q0 13-8.5 21.5T690-320h-50v50q0 13-8.5 21.5T610-240q-13 0-21.5-8.5T580-270v-50ZM410-620q13 0 21.5-8.5T440-650q0-13-8.5-21.5T410-680H270q-13 0-21.5 8.5T240-650q0 13 8.5 21.5T270-620h140Z"/>
+</svg>`,
+})
+export class MsrfExposureIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}

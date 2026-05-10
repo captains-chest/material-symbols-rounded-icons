@@ -11,20 +11,15 @@ const execFileAsync = promisify(execFile);
 const repoRoot = process.cwd();
 const configPath = path.join(repoRoot, 'tools/icons/upstream.json');
 const defaultSampleIconsPath = path.join(repoRoot, 'tools/icons/sample-icons.txt');
-const collisionReportPath = path.join(repoRoot, 'tools/icons/collision-report.txt');
-const libRoot = path.join(repoRoot, 'projects/material-symbols-rounded-icons/src/lib');
-const generatedDir = path.join(libRoot, 'icons/generated');
-const generatedIndexPath = path.join(libRoot, 'icons/index.ts');
-const generatedComponentMapPath = path.join(libRoot, 'icons/component-map.ts');
-const manifestPath = path.join(libRoot, 'generated/icon-manifest.ts');
 
 function parseArgs(argv) {
-  const args = { limit: undefined, iconsFile: undefined };
+  const args = { limit: undefined, iconsFile: undefined, target: 'all' };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--limit') args.limit = Number(argv[++i]);
     if (arg === '--icons-file') args.iconsFile = path.resolve(repoRoot, argv[++i]);
     if (arg === '--sample') args.iconsFile = defaultSampleIconsPath;
+    if (arg === '--target') args.target = argv[++i];
   }
   return args;
 }
@@ -46,19 +41,19 @@ function normalizeSvg(svgContent) {
   return { viewBox, inner };
 }
 
-function componentSource({ selector, className, viewBox, innerSvg }) {
+function componentSource({ selector, className, viewBox, innerSvg, classPrefix, directivePrefix }) {
   const escapedInner = innerSvg.replace(/`/g, '\\`').replace(/\$\{/g, '\\\${');
   return `import { Component, input } from '@angular/core';
-import { MsrIconHostDirective } from '../../shared/msr-icon-host.directive';
-import { MsrIconSvgDirective } from '../../shared/msr-icon-svg.directive';
+import { ${classPrefix}IconHostDirective } from '../../shared/${directivePrefix}-icon-host.directive';
+import { ${classPrefix}IconSvgDirective } from '../../shared/${directivePrefix}-icon-svg.directive';
 
 @Component({
   selector: '${selector}',
-  imports: [MsrIconSvgDirective],
-  hostDirectives: [MsrIconHostDirective],
+  imports: [${classPrefix}IconSvgDirective],
+  hostDirectives: [${classPrefix}IconHostDirective],
   template: \
 \`<svg
-  msrIconSvg
+  ${directivePrefix}IconSvg
   focusable="false"
   [attr.viewBox]="'${viewBox}'"
   [attr.aria-hidden]="ariaLabel() ? null : 'true'"
@@ -76,14 +71,6 @@ export class ${className} {
 
 async function ensureDir(dirPath) {
   await fs.mkdir(dirPath, { recursive: true });
-}
-
-async function clearGeneratedFiles() {
-  await ensureDir(generatedDir);
-  const existing = await fs.readdir(generatedDir);
-  await Promise.all(
-    existing.filter((name) => name.endsWith('.ts')).map((name) => fs.unlink(path.join(generatedDir, name))),
-  );
 }
 
 const EXEC_MAX_BUFFER = 1024 * 1024 * 200;
@@ -115,11 +102,11 @@ async function clonePromisorRepo(config) {
   throw lastError;
 }
 
-function filePathForIcon(iconName, config) {
-  return `symbols/web/${iconName}/${config.symbolFamily}/${iconName}${config.variant.fileSuffix}`;
+function filePathForIcon(iconName, config, target) {
+  return `symbols/web/${iconName}/${config.symbolFamily}/${iconName}${target.variant.fileSuffix}`;
 }
 
-async function discoverIconNamesFromTree(tmp, config) {
+async function discoverIconNamesFromTree(tmp, config, target) {
   const treePaths = await runGitRead(['ls-tree', '-r', '--name-only', config.ref, 'symbols/web'], tmp);
   const iconNames = [];
 
@@ -129,7 +116,7 @@ async function discoverIconNamesFromTree(tmp, config) {
 
     const iconName = match[1];
     const fileName = match[2];
-    if (line.includes(`/${config.symbolFamily}/`) && fileName === `${iconName}${config.variant.fileSuffix}`) {
+    if (line.includes(`/${config.symbolFamily}/`) && fileName === `${iconName}${target.variant.fileSuffix}`) {
       iconNames.push(iconName);
     }
   }
@@ -137,7 +124,7 @@ async function discoverIconNamesFromTree(tmp, config) {
   return [...new Set(iconNames)].sort((a, b) => a.localeCompare(b));
 }
 
-async function readIconList(args, tmp, config) {
+async function readIconList(args, tmp, config, target) {
   if (args.iconsFile) {
     const raw = await fs.readFile(args.iconsFile, 'utf8');
     return raw
@@ -146,80 +133,123 @@ async function readIconList(args, tmp, config) {
       .filter(Boolean);
   }
 
-  return discoverIconNamesFromTree(tmp, config);
+  return discoverIconNamesFromTree(tmp, config, target);
 }
 
-async function materializeOnlyPaths(tmp, config, iconNames) {
+async function materializeOnlyPaths(tmp, config, target, iconNames) {
   await runGit(['sparse-checkout', 'init', '--no-cone'], tmp);
 
   const sparseFile = path.join(tmp, '.git/info/sparse-checkout');
-  const lines = iconNames.map((iconName) => filePathForIcon(iconName, config));
+  const lines = iconNames.map((iconName) => filePathForIcon(iconName, config, target));
   await fs.writeFile(sparseFile, `${lines.join('\n')}\n`, 'utf8');
 
   await runGit(['checkout', '--detach', config.ref], tmp);
 }
 
-async function writeCollisionReport(lines) {
-  await fs.writeFile(collisionReportPath, `${lines.join('\n')}\n`, 'utf8');
+async function clearGeneratedFiles(generatedDir) {
+  await ensureDir(generatedDir);
+  const existing = await fs.readdir(generatedDir);
+  await Promise.all(
+    existing.filter((name) => name.endsWith('.ts')).map((name) => fs.unlink(path.join(generatedDir, name))),
+  );
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+async function removeFileIfExists(filePath) {
+  try {
+    await fs.unlink(filePath);
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+}
+
+async function writeLines(filePath, lines) {
+  await ensureDir(path.dirname(filePath));
+  await fs.writeFile(filePath, `${lines.join('\n')}\n`, 'utf8');
+}
+
+function targetPaths(target) {
+  const libRoot = path.join(repoRoot, target.projectPath, 'src/lib');
+  return {
+    generatedDir: path.join(libRoot, 'icons/generated'),
+    generatedIndexPath: path.join(libRoot, 'icons/index.ts'),
+    generatedComponentMapPath: path.join(libRoot, 'icons/component-map.ts'),
+    manifestPath: path.join(libRoot, 'generated/icon-manifest.ts'),
+  };
+}
+
+async function generateForTarget(args, config, target) {
+  const paths = targetPaths(target);
+  const collisionReportPath = path.join(repoRoot, `tools/icons/collision-report-${target.id}.txt`);
+  const missingReportPath = path.join(repoRoot, `tools/icons/missing-report-${target.id}.txt`);
 
   const tmp = await clonePromisorRepo(config);
-  const discoveredOrRequested = await readIconList(args, tmp, config);
+
+  const discoveredOrRequested = await readIconList(args, tmp, config, target);
   const selected = args.limit ? discoveredOrRequested.slice(0, args.limit) : discoveredOrRequested;
 
-  if (selected.length === 0) throw new Error('No icons selected for generation');
+  if (selected.length === 0) throw new Error(`No icons selected for generation for target: ${target.id}`);
 
   const collisions = new Map();
   for (const iconName of selected) {
-    const selector = `msr-${iconName.replaceAll('_', '-')}-icon`;
+    const selector = `${target.selectorPrefix}-${iconName.replaceAll('_', '-')}-icon`;
     collisions.set(selector, (collisions.get(selector) ?? 0) + 1);
   }
 
   const duplicates = [...collisions.entries()].filter(([, count]) => count > 1).map(([name]) => name);
   if (duplicates.length > 0) {
-    await writeCollisionReport(['Selector collisions detected:', ...duplicates]);
-    throw new Error(`Selector collision detected. See ${collisionReportPath}`);
+    await writeLines(collisionReportPath, ['Selector collisions detected:', ...duplicates]);
+    throw new Error(`Selector collision detected for ${target.id}. See ${collisionReportPath}`);
   }
 
-  await materializeOnlyPaths(tmp, config, selected);
-  await clearGeneratedFiles();
+  await removeFileIfExists(collisionReportPath);
+
+  await materializeOnlyPaths(tmp, config, target, selected);
+  await clearGeneratedFiles(paths.generatedDir);
 
   const missing = [];
   const generated = [];
 
   for (const iconName of selected) {
-    const relativeSvgPath = filePathForIcon(iconName, config);
+    const relativeSvgPath = filePathForIcon(iconName, config, target);
     const svgPath = path.join(tmp, relativeSvgPath);
 
     let svgText;
     try {
       svgText = await fs.readFile(svgPath, 'utf8');
     } catch {
-      missing.push(relativeSvgPath);
+      missing.push(iconName);
       continue;
     }
 
     const { viewBox, inner } = normalizeSvg(svgText);
-    const className = `Msr${toPascalCase(iconName)}IconComponent`;
+    const className = `${target.classPrefix}${toPascalCase(iconName)}IconComponent`;
     const fileName = `${iconName.replaceAll('_', '-')}.icon.ts`;
-    const selector = `msr-${iconName.replaceAll('_', '-')}-icon`;
+    const selector = `${target.selectorPrefix}-${iconName.replaceAll('_', '-')}-icon`;
 
     await fs.writeFile(
-      path.join(generatedDir, fileName),
-      componentSource({ selector, className, viewBox, innerSvg: inner }),
+      path.join(paths.generatedDir, fileName),
+      componentSource({
+        selector,
+        className,
+        viewBox,
+        innerSvg: inner,
+        classPrefix: target.classPrefix,
+        directivePrefix: target.directivePrefix,
+      }),
       'utf8',
     );
 
     generated.push({ iconName, className, fileName });
   }
 
+  if (generated.length === 0) {
+    throw new Error(`No icons were generated for ${target.id}. Check variant suffix and upstream paths.`);
+  }
+
   if (missing.length > 0) {
-    await writeCollisionReport(['Missing expected SVG files:', ...missing]);
-    throw new Error(`Missing expected icon SVG files. See ${collisionReportPath}`);
+    await writeLines(missingReportPath, ['Missing icons for target:', target.id, ...missing]);
+  } else {
+    await removeFileIfExists(missingReportPath);
   }
 
   const indexContent = `${generated
@@ -248,15 +278,15 @@ ${generated.map(({ iconName, className }) => `  '${iconName}': ${className},`).j
 };
 `;
 
-  await ensureDir(path.dirname(generatedIndexPath));
-  await fs.writeFile(generatedIndexPath, indexContent, 'utf8');
-  await fs.writeFile(generatedComponentMapPath, componentMapContent, 'utf8');
+  await ensureDir(path.dirname(paths.generatedIndexPath));
+  await fs.writeFile(paths.generatedIndexPath, indexContent, 'utf8');
+  await fs.writeFile(paths.generatedComponentMapPath, componentMapContent, 'utf8');
 
   const sha = await runGitRead(['rev-parse', 'HEAD'], tmp);
   const committedAt = await runGitRead(['log', '-1', '--format=%cI', 'HEAD'], tmp);
 
   const manifest = `export const ICON_MANIFEST = {
-  packageName: '@captains-chest/material-symbols-rounded-icons',
+  packageName: '${target.packageName}',
   source: {
     owner: '${config.owner}',
     repo: '${config.repo}',
@@ -265,19 +295,43 @@ ${generated.map(({ iconName, className }) => `  '${iconName}': ${className},`).j
     resolvedCommittedAt: '${committedAt}',
   },
   variant: {
-    fill: ${config.variant.fill},
-    wght: ${config.variant.wght},
-    grad: ${config.variant.grad},
-    opsz: ${config.variant.opsz},
+    fill: ${target.variant.fill},
+    wght: ${target.variant.wght},
+    grad: ${target.variant.grad},
+    opsz: ${target.variant.opsz},
   },
   iconCount: ${generated.length},
 } as const;
 `;
 
-  await ensureDir(path.dirname(manifestPath));
-  await fs.writeFile(manifestPath, manifest, 'utf8');
+  await ensureDir(path.dirname(paths.manifestPath));
+  await fs.writeFile(paths.manifestPath, manifest, 'utf8');
 
-  console.log(`Generated ${generated.length} icons from ${config.owner}/${config.repo}@${sha}`);
+  console.log(
+    `[${target.id}] Generated ${generated.length} icons from ${config.owner}/${config.repo}@${sha}` +
+      (missing.length > 0 ? ` (${missing.length} missing; see ${path.relative(repoRoot, missingReportPath)})` : ''),
+  );
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+  const targets = Object.values(config.targets ?? {});
+
+  if (targets.length === 0) {
+    throw new Error('No targets configured in tools/icons/upstream.json');
+  }
+
+  const selectedTargets =
+    args.target === 'all' ? targets : targets.filter((target) => target.id === args.target);
+
+  if (selectedTargets.length === 0) {
+    throw new Error(`Unknown target "${args.target}". Available targets: ${targets.map((t) => t.id).join(', ')}`);
+  }
+
+  for (const target of selectedTargets) {
+    await generateForTarget(args, config, target);
+  }
 }
 
 main().catch((error) => {

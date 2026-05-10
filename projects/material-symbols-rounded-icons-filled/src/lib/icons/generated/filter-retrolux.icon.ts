@@ -1,0 +1,22 @@
+import { Component, input } from '@angular/core';
+import { MsrfIconHostDirective } from '../../shared/msrf-icon-host.directive';
+import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
+
+@Component({
+  selector: 'msrf-filter-retrolux-icon',
+  imports: [MsrfIconSvgDirective],
+  hostDirectives: [MsrfIconHostDirective],
+  template: `<svg
+  msrfIconSvg
+  focusable="false"
+  [attr.viewBox]="'0 -960 960 960'"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.aria-label]="ariaLabel()"
+  [attr.role]="ariaLabel() ? 'img' : null"
+>
+  <path d="m573-112-61-62q-17 42-52.5 68T380-80q-59 0-99.5-40.5T240-220q0-59 40.5-99.5T380-360q14 0 28 2t26 8L258-613q-8-12-6.5-26t11.5-24l189-189q6-6 13-8.5t15-2.5q8 0 15 2.5t13 8.5l189 189q10 10 11.5 24t-6.5 26L520-340v62l110 110q11 11 11.5 27.5T631-112q-12 12-29 12t-29-12Zm-193-48q25 0 42.5-17.5T440-220q0-25-17.5-42.5T380-280q-25 0-42.5 17.5T320-220q0 25 17.5 42.5T380-160Z"/>
+</svg>`,
+})
+export class MsrfFilterRetroluxIconComponent {
+  readonly ariaLabel = input<string | null>(null);
+}
