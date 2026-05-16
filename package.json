@@ -21,9 +21,9 @@
     "ci:baseline": "npm run test:security && npm run verify:generated:sync && npm run build:lib && npm run test:smoke",
     "storybook": "ng run icon-pack:storybook",
     "build-storybook": "ng run icon-pack:build-storybook",
-    "release:prepare": "npm run verify:generated && npm run build:lib && npm run test:smoke",
+    "release:prepare": "npm run test:security && npm run verify:generated && npm run build:lib && npm run test:smoke",
     "release:check": "npm run release:prepare && cd dist/material-symbols-rounded-icons && npm pack --dry-run && cd ../material-symbols-rounded-icons-filled && npm pack --dry-run",
-    "release:publish": "npm run release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public && cd ../material-symbols-rounded-icons-filled && npm publish --access public"
+    "release:publish": "npm run release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public --provenance && cd ../material-symbols-rounded-icons-filled && npm publish --access public --provenance"
   },
   "private": true,
   "packageManager": "npm@11.11.0",
