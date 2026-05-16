@@ -1,6 +1,5 @@
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { Component, Type } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import type { Meta, StoryObj } from '@storybook/angular';
 import {
   MSR_ICON_NAMES as OUTLINE_ICON_NAMES,
@@ -25,7 +24,7 @@ type VariantMode = 'outline' | 'filled' | 'both';
 @Component({
   selector: 'msr-storybook-catalog',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgComponentOutlet, ...OUTLINE_ICON_COMPONENTS, ...FILLED_ICON_COMPONENTS],
+  imports: [CommonModule, NgComponentOutlet, ...OUTLINE_ICON_COMPONENTS, ...FILLED_ICON_COMPONENTS],
   styles: `
     .catalog {
       display: grid;
@@ -106,12 +105,12 @@ type VariantMode = 'outline' | 'filled' | 'both';
       <div class="catalog-controls">
         <label class="catalog-control catalog-control--search">
           <span>Search icons</span>
-          <input [(ngModel)]="query" placeholder="home, settings, account..." />
+          <input [value]="query" (input)="setQuery($any($event.target).value)" placeholder="home, settings, account..." />
         </label>
 
         <label class="catalog-control catalog-control--variant">
           <span>Variant</span>
-          <select [(ngModel)]="variantMode">
+          <select [value]="variantMode" (change)="setVariantMode($any($event.target).value)">
             <option value="outline">Outline</option>
             <option value="filled">Filled</option>
             <option value="both">Side by side</option>
@@ -196,6 +195,14 @@ class IconCatalogStoryComponent {
 
   displayedNames(): IconName[] {
     return this.filteredNames().slice(0, this.sampleSize);
+  }
+
+  setQuery(query: string): void {
+    this.query = query;
+  }
+
+  setVariantMode(variantMode: VariantMode): void {
+    this.variantMode = variantMode;
   }
 
   hasOutline(name: IconName): boolean {

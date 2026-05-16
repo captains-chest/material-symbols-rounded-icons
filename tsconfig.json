@@ -32,13 +32,10 @@
       "path": "./tsconfig.app.json"
     },
     {
-      "path": "./tsconfig.spec.json"
-    },
-    {
       "path": "./projects/material-symbols-rounded-icons/tsconfig.lib.json"
     },
     {
-      "path": "./projects/material-symbols-rounded-icons/tsconfig.spec.json"
+      "path": "./projects/material-symbols-rounded-icons-filled/tsconfig.lib.json"
     }
   ]
 }

@@ -18,12 +18,6 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
             "styles": ["src/styles.css"]
           },
           "configurations": {
@@ -49,21 +43,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "icon-pack:build:production"
-            },
-            "development": {
-              "buildTarget": "icon-pack:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
         },
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
@@ -104,12 +83,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/material-symbols-rounded-icons/tsconfig.spec.json"
-          }
         }
       }
     },
@@ -130,12 +103,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/material-symbols-rounded-icons-filled/tsconfig.spec.json"
-          }
         }
       }
     }

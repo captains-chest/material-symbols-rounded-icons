@@ -104,9 +104,9 @@ _Avoid_: Implicitly announced decorative icons
 A minimum quality gate that requires deterministic generation, successful production build, and a consumer smoke test for rendering and accessibility behavior.
 _Avoid_: Build-only validation
 
-**Library+Playground Workspace**:
-A workspace structure where publishable icon libraries and a non-publishable demo application coexist.
-_Avoid_: Library-only workspace in v1
+**Library+Storybook Workspace**:
+A workspace structure where publishable icon libraries and a Storybook-based non-publishable playground coexist, without a separate Angular demo application.
+_Avoid_: Separate Angular demo application, library-only workspace in v1
 
 **Shared Multi-Package Workspace**:
 A repository topology where unfilled and filled icon packages are generated and published from the same workspace using shared generation logic.
@@ -117,8 +117,12 @@ A workspace naming rule where project name, dist path, package identity, selecto
 _Avoid_: Cross-layer naming mismatches requiring manual mapping
 
 **Storybook Playground**:
-A Storybook-based interactive surface used as the primary demo/playground for validating icon rendering and usage patterns.
-_Avoid_: Ad-hoc demo pages as primary playground
+A Storybook-based interactive surface used as the only demo/playground for validating icon rendering and usage patterns.
+_Avoid_: Ad-hoc demo pages, separate Angular demo application as primary playground
+
+**Storybook Host**:
+The minimal Angular workspace target retained only to support Storybook's Angular integration.
+_Avoid_: Demo application, product application
 
 **Catalog Browser Story**:
 A Storybook pattern where icon exploration is centralized in a searchable/filterable catalog story instead of per-icon stories.
@@ -191,10 +195,11 @@ _Avoid_: Dual standalone/NgModule surfaces in v1
 - v1 uses **Compile-Time Icon Resolution**
 - Each **Icon Component** follows **Decorative-First Accessibility**
 - Release readiness is validated by a **Deterministic CI Baseline**
-- The repository uses a **Library+Playground Workspace**
+- The repository uses a **Library+Storybook Workspace**
 - Unfilled and filled variant packages use a **Shared Multi-Package Workspace**
 - Variant artifacts and APIs follow **Variant Naming Alignment**
 - The playground experience is provided by a **Storybook Playground**
+- The **Storybook Playground** is backed by a minimal **Storybook Host**
 - The **Storybook Playground** is centered on a **Catalog Browser Story**
 - The library is released through **Dual-Package Distribution**
 - Upstream updates follow **Manual-First Sync Governance**
@@ -240,10 +245,12 @@ _Avoid_: Dual standalone/NgModule surfaces in v1
 - Runtime loading expectations were unspecified — resolved to **Compile-Time Icon Resolution** for v1.
 - Accessibility behavior was unspecified — resolved with **Decorative-First Accessibility**.
 - CI quality expectations were vague — resolved with a **Deterministic CI Baseline**.
-- Repository shape was undecided — resolved to a **Library+Playground Workspace**.
+- Repository shape was undecided — resolved to a **Library+Storybook Workspace**.
+- The role of the Angular demo application was unclear — resolved: Storybook is the only playground surface, so the separate demo application should be removed.
 - Variant repo topology was undecided — resolved to a **Shared Multi-Package Workspace**.
 - Cross-layer naming for the filled variant was unspecified — resolved with **Variant Naming Alignment**.
 - Playground technology was unspecified — resolved to a **Storybook Playground**.
+- The purpose of the root Angular project was unclear — resolved as a minimal **Storybook Host**, not a demo or product application.
 - Story granularity at icon scale was unclear — resolved to a **Catalog Browser Story** approach.
 - Publish topology was undecided — resolved to **Dual-Package Distribution** (unfilled + filled packages).
 - Sync cadence governance was unspecified — resolved to **Manual-First Sync Governance** (automation-ready, but maintainer-triggered in v1).

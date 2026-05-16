@@ -1,12 +1,17 @@
 # @captains-chest/material-symbols-rounded-icons workspace
 
-Angular workspace for publishable Material Symbols Rounded icon libraries (outline + filled) with a Storybook playground.
+Angular workspace for publishable Material Symbols Rounded icon libraries (outline + filled) with a Storybook-only playground.
 
-## Projects
+## Workspace shape
 
 - `projects/material-symbols-rounded-icons`: publishable outline standalone component library
 - `projects/material-symbols-rounded-icons-filled`: publishable filled standalone component library
 - `stories/` + `.storybook/`: Storybook catalog browser playground
+- `src/main.ts`, `src/index.html`, and `src/styles.css`: minimal Angular Storybook host scaffolding only
+
+There is intentionally no standalone Angular demo application. Storybook is the only playground surface.
+
+Generated icon source files are committed because they are the public API under review. Build outputs such as `dist/` and `storybook-static/` are ignored and regenerated locally or in CI.
 
 ## Core commands
 
@@ -14,9 +19,10 @@ Angular workspace for publishable Material Symbols Rounded icon libraries (outli
 npm run sync:icons       # fetch + generate icon components for outline + filled from pinned upstream source
 npm run build:lib        # build both publishable Angular libraries
 npm run storybook        # run Storybook playground
+npm run build-storybook  # build the Storybook playground
 npm run ci:baseline      # determinism + build + smoke checks
 npm run release:check    # full pre-publish validation + npm pack dry-run
-npm run release:publish  # publish dist package to npm
+npm run release:publish  # publish dist packages to npm
 ```
 
 ## Generation scope
