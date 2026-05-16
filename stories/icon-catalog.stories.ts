@@ -44,15 +44,21 @@ type VariantMode = 'outline' | 'filled' | 'both';
         </label>
       </div>
 
-      <div style="font-size:12px; color:#666;">Showing {{ filteredNames().length }} icons</div>
+      @let filtered = filteredNames();
+      @let visible = displayedNames();
+
+      <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:12px; color:#666;">
+        <div>Showing {{ visible.length }} sample icons of {{ filtered.length }} filtered ({{ names.length }} total)</div>
+        <div>Sample size: {{ sampleSize }} · Outline: {{ outlineNames.length }} · Filled: {{ filledNames.length }}</div>
+      </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px;">
-        @for (name of filteredNames(); track name) {
+        @for (name of visible; track name) {
           <div style="display:grid; gap:8px; border:1px solid #ddd; border-radius:8px; padding:12px;">
-            <div style="display:flex; align-items:center; gap:10px; min-height:24px;">
+            <div style="display:flex; align-items:center; gap:10px; min-height:5rem;">
               @if (variantMode === 'outline') {
                 @if (hasOutline(name)) {
-                  <div style="display:flex; width:24px; height:24px; color:#222;">
+                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
                     <ng-container *ngComponentOutlet="resolveOutlineComponent(name)"></ng-container>
                   </div>
                 } @else {
@@ -62,7 +68,7 @@ type VariantMode = 'outline' | 'filled' | 'both';
 
               @if (variantMode === 'filled') {
                 @if (hasFilled(name)) {
-                  <div style="display:flex; width:24px; height:24px; color:#222;">
+                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
                     <ng-container *ngComponentOutlet="resolveFilledComponent(name)"></ng-container>
                   </div>
                 } @else {
@@ -71,13 +77,13 @@ type VariantMode = 'outline' | 'filled' | 'both';
               }
 
               @if (variantMode === 'both') {
-                <div style="display:grid; grid-template-columns:24px 24px; gap:8px; align-items:center;">
-                  <div style="display:flex; width:24px; height:24px; color:#222;">
+                <div style="display:grid; grid-template-columns:5rem 5rem; gap:8px; align-items:center;">
+                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
                     @if (hasOutline(name)) {
                       <ng-container *ngComponentOutlet="resolveOutlineComponent(name)"></ng-container>
                     }
                   </div>
-                  <div style="display:flex; width:24px; height:24px; color:#222;">
+                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
                     @if (hasFilled(name)) {
                       <ng-container *ngComponentOutlet="resolveFilledComponent(name)"></ng-container>
                     }
@@ -96,6 +102,7 @@ type VariantMode = 'outline' | 'filled' | 'both';
 class IconCatalogStoryComponent {
   query = '';
   variantMode: VariantMode = 'both';
+  readonly sampleSize = 24;
 
   readonly outlineNames = [...OUTLINE_ICON_NAMES] as IconName[];
   readonly filledNames = [...FILLED_ICON_NAMES] as IconName[];
@@ -110,6 +117,10 @@ class IconCatalogStoryComponent {
     const normalized = this.query.trim().toLowerCase();
     if (!normalized) return this.names;
     return this.names.filter((name) => name.toLowerCase().includes(normalized));
+  }
+
+  displayedNames(): IconName[] {
+    return this.filteredNames().slice(0, this.sampleSize);
   }
 
   hasOutline(name: IconName): boolean {
