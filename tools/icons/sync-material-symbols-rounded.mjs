@@ -66,6 +66,37 @@ async function ensureDir(dirPath) {
 }
 
 const EXEC_MAX_BUFFER = 1024 * 1024 * 200;
+const UPSTREAM_POLICY = {
+  owner: 'google',
+  repo: 'material-design-icons',
+  refPattern: /^[0-9a-f]{40}$/,
+};
+
+function validateUpstreamPolicy(config) {
+  const violations = [];
+  if (config.owner !== UPSTREAM_POLICY.owner) {
+    violations.push({ code: 'unexpected-owner', expected: UPSTREAM_POLICY.owner, actual: config.owner });
+  }
+  if (config.repo !== UPSTREAM_POLICY.repo) {
+    violations.push({ code: 'unexpected-repo', expected: UPSTREAM_POLICY.repo, actual: config.repo });
+  }
+  if (!UPSTREAM_POLICY.refPattern.test(config.ref ?? '')) {
+    violations.push({ code: 'mutable-ref', expected: '40-character lowercase git commit SHA', actual: config.ref });
+  }
+  if (violations.length === 0) return;
+
+  throw new Error(
+    JSON.stringify(
+      {
+        error: 'upstream-policy-violation',
+        configPath: path.relative(repoRoot, configPath),
+        violations,
+      },
+      null,
+      2,
+    ),
+  );
+}
 
 async function runGit(args, cwd) {
   await execFileAsync('git', args, { cwd, maxBuffer: EXEC_MAX_BUFFER });
@@ -312,6 +343,7 @@ ${generated.map(({ iconName, className }) => `  '${iconName}': ${className},`).j
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+  validateUpstreamPolicy(config);
   const targets = Object.values(config.targets ?? {});
 
   if (targets.length === 0) {
