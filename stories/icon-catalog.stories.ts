@@ -26,15 +26,90 @@ type VariantMode = 'outline' | 'filled' | 'both';
   selector: 'msr-storybook-catalog',
   standalone: true,
   imports: [CommonModule, FormsModule, NgComponentOutlet, ...OUTLINE_ICON_COMPONENTS, ...FILLED_ICON_COMPONENTS],
+  styles: `
+    .catalog {
+      display: grid;
+      gap: 16px;
+    }
+
+    .catalog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .catalog-control {
+      display: grid;
+      gap: 8px;
+    }
+
+    .catalog-control--search {
+      min-width: 280px;
+      flex: 1 1 320px;
+    }
+
+    .catalog-control--variant {
+      min-width: 180px;
+    }
+
+    .catalog-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .catalog-card {
+      display: grid;
+      gap: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .catalog-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 5rem;
+    }
+
+    .catalog-icon {
+      display: flex;
+      width: 5rem;
+      height: 5rem;
+      color: #222;
+    }
+
+    .catalog-icon-pair {
+      display: grid;
+      grid-template-columns: 5rem 5rem;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .catalog-missing {
+      color: #999;
+    }
+  `,
   template: `
-    <div style="display:grid; gap:16px;">
-      <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:end;">
-        <label style="display:grid; gap:8px; min-width:280px; flex:1 1 320px;">
+    <div class="catalog">
+      <div class="catalog-controls">
+        <label class="catalog-control catalog-control--search">
           <span>Search icons</span>
           <input [(ngModel)]="query" placeholder="home, settings, account..." />
         </label>
 
-        <label style="display:grid; gap:8px; min-width:180px;">
+        <label class="catalog-control catalog-control--variant">
           <span>Variant</span>
           <select [(ngModel)]="variantMode">
             <option value="outline">Outline</option>
@@ -47,43 +122,43 @@ type VariantMode = 'outline' | 'filled' | 'both';
       @let filtered = filteredNames();
       @let visible = displayedNames();
 
-      <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:12px; color:#666;">
+      <div class="catalog-summary">
         <div>Showing {{ visible.length }} sample icons of {{ filtered.length }} filtered ({{ names.length }} total)</div>
         <div>Sample size: {{ sampleSize }} · Outline: {{ outlineNames.length }} · Filled: {{ filledNames.length }}</div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px;">
+      <div class="catalog-grid">
         @for (name of visible; track name) {
-          <div style="display:grid; gap:8px; border:1px solid #ddd; border-radius:8px; padding:12px;">
-            <div style="display:flex; align-items:center; gap:10px; min-height:5rem;">
+          <div class="catalog-card">
+            <div class="catalog-preview">
               @if (variantMode === 'outline') {
                 @if (hasOutline(name)) {
-                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
+                  <div class="catalog-icon">
                     <ng-container *ngComponentOutlet="resolveOutlineComponent(name)"></ng-container>
                   </div>
                 } @else {
-                  <small style="color:#999;">missing outline</small>
+                  <small class="catalog-missing">missing outline</small>
                 }
               }
 
               @if (variantMode === 'filled') {
                 @if (hasFilled(name)) {
-                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
+                  <div class="catalog-icon">
                     <ng-container *ngComponentOutlet="resolveFilledComponent(name)"></ng-container>
                   </div>
                 } @else {
-                  <small style="color:#999;">missing filled</small>
+                  <small class="catalog-missing">missing filled</small>
                 }
               }
 
               @if (variantMode === 'both') {
-                <div style="display:grid; grid-template-columns:5rem 5rem; gap:8px; align-items:center;">
-                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
+                <div class="catalog-icon-pair">
+                  <div class="catalog-icon">
                     @if (hasOutline(name)) {
                       <ng-container *ngComponentOutlet="resolveOutlineComponent(name)"></ng-container>
                     }
                   </div>
-                  <div style="display:flex; width:5rem; height:5rem; color:#222;">
+                  <div class="catalog-icon">
                     @if (hasFilled(name)) {
                       <ng-container *ngComponentOutlet="resolveFilledComponent(name)"></ng-container>
                     }
