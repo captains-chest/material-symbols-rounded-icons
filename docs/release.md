@@ -15,7 +15,7 @@ This repository uses two separate governance models:
 ## Validate before release
 
 ```bash
-npm run release:check
+pnpm release:check
 ```
 
 This runs:
@@ -32,8 +32,8 @@ This runs:
 Syncing remains a maintainer-controlled local action:
 
 ```bash
-npm run sync:icons
-npm run ci:baseline
+pnpm sync:icons
+pnpm ci:baseline
 ```
 
 The sync command enforces the Shared Upstream Pin policy before generation. The upstream owner must remain `google`, the repository must remain `material-design-icons`, and `ref` must be a 40-character immutable commit SHA.
@@ -43,7 +43,7 @@ The sync command enforces the Shared Upstream Pin policy before generation. The 
 1. Confirm the release check passes locally:
 
    ```bash
-   npm run release:check
+   pnpm release:check
    ```
 
 2. Commit the version bump and generated-source state.
@@ -70,7 +70,7 @@ The publish workflow releases the outline and filled packages from one controlle
 Local publishing is not the normal trust path. If maintainers must publish manually, use:
 
 ```bash
-npm run release:publish
+pnpm release:publish
 ```
 
 This still runs hardening checks first and passes `--provenance` to npm where supported, but repository owners should prefer the protected CI workflow for repeatable artifact provenance.

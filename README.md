@@ -16,20 +16,20 @@ Generated icon source files are committed because they are the public API under 
 ## Core commands
 
 ```bash
-npm run sync:icons       # fetch + generate icon components for outline + filled from pinned upstream source
-npm run build:lib        # build both publishable Angular libraries
-npm run storybook        # run Storybook playground
-npm run build-storybook  # build the Storybook playground
-npm run ci:baseline      # determinism + build + smoke checks
-npm run release:check    # full pre-publish validation + npm pack dry-run
-npm run release:publish  # publish dist packages to npm
+pnpm sync:icons       # fetch + generate icon components for outline + filled from pinned upstream source
+pnpm build:lib        # build both publishable Angular libraries
+pnpm storybook        # run Storybook playground
+pnpm build-storybook  # build the Storybook playground
+pnpm ci:baseline      # determinism + build + smoke checks
+pnpm release:check    # full pre-publish validation + npm pack dry-run
+pnpm release:publish  # publish dist packages to npm
 ```
 
 ## Generation scope
 
-By default, `npm run sync:icons` generates the full Material Symbols Rounded set for both outline and filled variants at the pinned upstream ref.
+By default, `pnpm sync:icons` generates the full Material Symbols Rounded set for both outline and filled variants at the pinned upstream ref.
 
-For fast local checks, use `npm run sync:icons:sample` to generate the sample list from `tools/icons/sample-icons.txt`.
+For fast local checks, use `pnpm sync:icons:sample` to generate the sample list from `tools/icons/sample-icons.txt`.
 
 The sync pipeline is pinned by `tools/icons/upstream.json`:
 - family: Material Symbols Rounded
