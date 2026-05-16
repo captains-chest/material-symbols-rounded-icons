@@ -3,12 +3,12 @@
 This repository uses two separate governance models:
 
 - **Manual-first sync governance**: maintainers decide when to update the pinned upstream Material Symbols commit in `tools/icons/upstream.json`.
-- **Trusted publish governance**: packages are published from GitHub Actions on protected release tags, with npm provenance attached.
+- **Trusted publish governance**: packages are published from a repository-hosted CI runner on protected release tags, with npm provenance attached.
 
 ## Prerequisites
 
-1. npm trusted publishing or `NPM_TOKEN` is configured for the `npm-publish` GitHub environment.
-2. The `npm-publish` environment requires repository-owner approval.
+1. npm trusted publishing or `NPM_TOKEN` is configured in the repository-hosted CI environment.
+2. The publish environment requires repository-owner approval.
 3. Release tags matching `v*.*.*` are protected.
 4. The outline and filled package manifests use the same version.
 
@@ -54,8 +54,8 @@ The sync command enforces the Shared Upstream Pin policy before generation. The 
    git push origin v1.0.1
    ```
 
-4. GitHub Actions runs `.github/workflows/publish.yml` in the `npm-publish` environment.
-5. The workflow verifies tag/package version lockstep, runs release checks, then publishes both packages with `npm publish --provenance`.
+4. The repository-hosted CI publish job runs in the protected publish environment.
+5. The job verifies tag/package version lockstep, runs release checks, then publishes both packages with `npm publish --provenance`.
 
 ## Lockstep variant versioning
 
