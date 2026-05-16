@@ -69,6 +69,9 @@ importers:
       typescript:
         specifier: ~5.9.2
         version: 5.9.3
+      vite:
+        specifier: ^7.3.2
+        version: 7.3.2(@types/node@25.8.0)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.47.1)
 
 packages:
 
@@ -10837,12 +10840,12 @@ snapshots:
 
   vite@7.3.2(@types/node@25.8.0)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0):
     dependencies:
-      esbuild: 0.27.3
+      esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
       postcss: 8.5.14
       rollup: 4.60.4
-      tinyglobby: 0.2.15
+      tinyglobby: 0.2.16
     optionalDependencies:
       '@types/node': 25.8.0
       fsevents: 2.3.3
@@ -10853,12 +10856,12 @@ snapshots:
 
   vite@7.3.2(@types/node@25.8.0)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.47.1):
     dependencies:
-      esbuild: 0.27.3
+      esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
       postcss: 8.5.14
       rollup: 4.60.4
-      tinyglobby: 0.2.15
+      tinyglobby: 0.2.16
     optionalDependencies:
       '@types/node': 25.8.0
       fsevents: 2.3.3
