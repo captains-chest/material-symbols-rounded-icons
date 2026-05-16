@@ -5,6 +5,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { formatSanitizationError, sanitizeSvg, SvgSanitizationError } from './svg-sanitizer.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -30,15 +31,6 @@ function toPascalCase(iconName) {
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
-}
-
-function normalizeSvg(svgContent) {
-  const viewBox = svgContent.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 24 24';
-  const inner = svgContent
-    .replace(/^[\s\S]*?<svg[^>]*>/, '')
-    .replace(/<\/svg>\s*$/, '')
-    .trim();
-  return { viewBox, inner };
 }
 
 function componentSource({ selector, className, viewBox, innerSvg, classPrefix, directivePrefix }) {
@@ -221,7 +213,11 @@ async function generateForTarget(args, config, target) {
       continue;
     }
 
-    const { viewBox, inner } = normalizeSvg(svgText);
+    const { viewBox, inner } = sanitizeSvg(svgText, {
+      targetId: target.id,
+      iconName,
+      sourcePath: relativeSvgPath,
+    });
     const className = `${target.classPrefix}${toPascalCase(iconName)}IconComponent`;
     const fileName = `${iconName.replaceAll('_', '-')}.icon.ts`;
     const selector = `${target.selectorPrefix}-${iconName.replaceAll('_', '-')}-icon`;
@@ -335,6 +331,10 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error);
+  if (error instanceof SvgSanitizationError) {
+    console.error(formatSanitizationError(error));
+  } else {
+    console.error(error);
+  }
   process.exitCode = 1;
 });
