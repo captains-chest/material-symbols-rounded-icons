@@ -25,6 +25,18 @@ const sharedSnippets = [
   "[attr.role]=\"ariaLabel() ? 'img' : null\"",
 ];
 
+const forbiddenPatterns = [
+  { code: 'script-element', pattern: /<\s*\/?\s*script\b/i },
+  { code: 'foreign-object-element', pattern: /<\s*\/?\s*foreignObject\b/i },
+  { code: 'event-handler-attribute', pattern: /\s+on[a-z]+\s*=/i },
+  { code: 'javascript-uri', pattern: /javascript\s*:/i },
+  { code: 'data-uri', pattern: /\bdata\s*:/i },
+  { code: 'remote-uri', pattern: /(?:https?:)?\/\//i },
+];
+
+const findForbiddenPatterns = (source) =>
+  forbiddenPatterns.filter(({ pattern }) => pattern.test(source)).map(({ code }) => code).sort();
+
 for (const target of targets) {
   const generatedDir = path.join(repoRoot, target.generatedDir);
   const files = (await fs.readdir(generatedDir)).filter((file) => file.endsWith('.ts'));
@@ -40,6 +52,22 @@ for (const target of targets) {
       if (!source.includes(snippet)) {
         throw new Error(`Smoke check failed (${target.id}): ${file} missing snippet: ${snippet}`);
       }
+    }
+
+    const forbiddenMatches = findForbiddenPatterns(source);
+    if (forbiddenMatches.length > 0) {
+      throw new Error(
+        JSON.stringify(
+          {
+            error: 'smoke-forbidden-pattern',
+            target: target.id,
+            file,
+            violations: forbiddenMatches,
+          },
+          null,
+          2,
+        ),
+      );
     }
   }
 
