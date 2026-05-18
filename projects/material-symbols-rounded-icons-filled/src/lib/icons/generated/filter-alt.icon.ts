@@ -6,6 +6,23 @@ import { MsrfIconSvgDirective } from '../../shared/msrf-icon-svg.directive';
   selector: 'msrf-filter-alt-icon',
   imports: [MsrfIconSvgDirective],
   hostDirectives: [MsrfIconHostDirective],
+  styles: [`
+    :host.msrf-icon {
+      display: inline-flex;
+      flex: 0 0 auto;
+      inline-size: 1em;
+      block-size: 1em;
+      min-inline-size: 0;
+      min-block-size: 0;
+    }
+
+    .msrf-icon-svg {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      fill: currentColor;
+    }
+  `],
   template: `<svg
   msrfIconSvg
   focusable="false"

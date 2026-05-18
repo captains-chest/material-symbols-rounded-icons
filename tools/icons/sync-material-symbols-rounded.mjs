@@ -35,6 +35,8 @@ function toPascalCase(iconName) {
 
 function componentSource({ selector, className, viewBox, innerSvg, classPrefix, directivePrefix }) {
   const escapedInner = innerSvg.replace(/`/g, '\\`').replace(/\$\{/g, '\\\${');
+  const hostClass = `${directivePrefix}-icon`;
+  const svgClass = `${directivePrefix}-icon-svg`;
   return `import { Component, input } from '@angular/core';
 import { ${classPrefix}IconHostDirective } from '../../shared/${directivePrefix}-icon-host.directive';
 import { ${classPrefix}IconSvgDirective } from '../../shared/${directivePrefix}-icon-svg.directive';
@@ -43,6 +45,23 @@ import { ${classPrefix}IconSvgDirective } from '../../shared/${directivePrefix}-
   selector: '${selector}',
   imports: [${classPrefix}IconSvgDirective],
   hostDirectives: [${classPrefix}IconHostDirective],
+  styles: [\`
+    :host.${hostClass} {
+      display: inline-flex;
+      flex: 0 0 auto;
+      inline-size: 1em;
+      block-size: 1em;
+      min-inline-size: 0;
+      min-block-size: 0;
+    }
+
+    .${svgClass} {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      fill: currentColor;
+    }
+  \`],
   template: \
 \`<svg
   ${directivePrefix}IconSvg

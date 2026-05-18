@@ -1,0 +1,3 @@
+# Public variant CSS classes for generated icons
+
+Generated icon components expose stable public CSS classes for styling: `.msr-icon` / `.msrf-icon` on component hosts and `.msr-icon-svg` / `.msrf-icon-svg` on inner SVG elements. Shared directives apply these classes, while each generated component carries identical variant-specific `styles` metadata for baseline host and SVG rendering so Consumer Applications get correct container-driven sizing without required package CSS imports; we chose this over Angular style bindings or explicit global stylesheet imports because the rules are static, public, and should work with zero setup.

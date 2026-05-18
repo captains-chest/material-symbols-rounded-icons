@@ -3,10 +3,7 @@ import { Directive } from '@angular/core';
 @Directive({
   selector: '[msrfIconHost]',
   host: {
-    '[style.display]': '"flex"',
-    '[style.flex]': '"1 1 auto"',
-    '[style.min-width]': '"0"',
-    '[style.min-height]': '"0"',
+    class: 'msrf-icon',
   },
 })
 export class MsrfIconHostDirective {}

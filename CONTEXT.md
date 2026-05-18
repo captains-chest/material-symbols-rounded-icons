@@ -48,9 +48,17 @@ _Avoid_: Ad-hoc selector naming
 A deterministic naming rule where each filled icon component selector is `msrf-<kebab-icon-name>-icon`.
 _Avoid_: Selector collisions between variant packages
 
-**Container-Driven Sizing**:
-A rendering contract where icon components grow to available parent space by default and inherit color via `currentColor`, with host `display:flex; flex:1 1 auto; min-width:0; min-height:0` and inner SVG `width:100%; height:100%; fill:currentColor`.
-_Avoid_: Intrinsic fixed icon sizing defaults
+**Content-Sized Icon Defaults**:
+A rendering contract where icon components behave like inline visual symbols by default, using `inline-flex`, `flex: 0 0 auto`, logical sizing (`inline-size`/`block-size`), and `currentColor` inheritance.
+_Avoid_: Flex-grow-by-default icon hosts, parent-space-filling icon defaults, physical width/height for baseline sizing, dynamic style bindings for static icon layout rules, required consumer CSS imports for baseline rendering
+
+**Variant Host Class Contract**:
+A public styling contract where generated icon component hosts expose one stable variant-level CSS class that carries both variant identity and host layout through `:host.msr-icon` and `:host.msrf-icon` component styles, while allowing Consumer Applications to target the class for sizing, color, and contextual styling.
+_Avoid_: Inner-SVG-only variant classes, per-icon CSS classes by default, separate shared host layout classes
+
+**Variant SVG Class Contract**:
+A public styling contract where generated icon SVG elements expose one stable variant-level CSS class that carries SVG layout and color inheritance through `.msr-icon-svg` and `.msrf-icon-svg` component styles.
+_Avoid_: Unclassed inner SVG layout, shared cross-package SVG layout classes
 
 **Pinned Sync Pipeline**:
 A generation workflow where icons are synced from a pinned upstream reference via a dedicated script, and deterministic generated outputs are committed.
@@ -180,8 +188,10 @@ _Avoid_: Dual standalone/NgModule surfaces in v1
 - Components generated for the filled package use the **Filled Symbol Variant**
 - Each unfilled **Icon Component** selector follows the **Selector Naming Contract**
 - Each filled **Icon Component** selector follows the **Filled Selector Naming Contract**
-- Each **Icon Component** uses **Container-Driven Sizing** by default
-- **Container-Driven Sizing** is implemented through a shared host/SVG CSS contract
+- Each **Icon Component** uses **Content-Sized Icon Defaults** by default
+- **Content-Sized Icon Defaults** are implemented through generated component `styles` rules behind shared static CSS classes for host/SVG styling
+- Each generated **Icon Component** host follows the **Variant Host Class Contract**
+- Each generated **Icon Component** inner SVG follows the **Variant SVG Class Contract**
 - The library artifacts are produced via a **Pinned Sync Pipeline**
 - Multi-package outputs are produced via a **Parameterized Generation Core**
 - Variant generations share one **Shared Upstream Pin**
@@ -190,6 +200,7 @@ _Avoid_: Dual standalone/NgModule surfaces in v1
 - v1 icon scope follows **Full Upstream Inclusion**
 - The **Pinned Sync Pipeline** enforces **Collision-Strict Generation**
 - Published library versions follow the **Icon SemVer Policy**
+- Adding public variant CSS classes is a minor release under the **Icon SemVer Policy**
 - Unfilled and filled packages follow **Lockstep Variant Versioning**, including asymmetric-content releases
 - **Consumer Applications** import **Icon Components** through **Single Entrypoint Imports**
 - v1 uses **Compile-Time Icon Resolution**
@@ -229,8 +240,24 @@ _Avoid_: Dual standalone/NgModule surfaces in v1
 - Filled selector naming was unspecified — resolved with a strict **Filled Selector Naming Contract** using the `msrf-<kebab-icon-name>-icon` pattern to prevent dual-package collisions.
 - Cross-package TypeScript class naming was unspecified — resolved with **Variant-Distinct Component Naming** (`Msr...` vs `Msrf...`).
 - Brand prefix choice was unspecified — resolved to `msr-` for selector alignment.
-- Icon layout default was unclear — resolved: use **Container-Driven Sizing** (parent controls size; icon grows by default).
+- Icon layout default was unclear — initially resolved as **Container-Driven Sizing** (parent controls size; icon grows by default), then superseded by **Content-Sized Icon Defaults** after flex-parent layout issues.
 - Flex behavior details were unspecified — resolved with an explicit host/SVG CSS contract.
+- Flex-grow-by-default caused icons inside `justify-content: space-between` flex parents to absorb extra width — resolved by replacing **Container-Driven Sizing** with **Content-Sized Icon Defaults** (`inline-flex`, `flex: 0 0 auto`, `1em` square by default).
+- SVG sizing property choice was unspecified — resolved that host and inner SVG baseline sizing use logical properties (`inline-size` and `block-size`) consistently.
+- Host display mode was unspecified — resolved to `inline-flex` rather than `inline-block` to preserve the host-as-flex-container shape without flex-grow behavior.
+- Static layout styling mechanism was unspecified — resolved that fixed icon layout rules should consume package-owned CSS classes instead of Angular style bindings, reserving dynamic bindings for genuinely dynamic values.
+- CSS rule ownership was unspecified — resolved that shared directives apply public classes only, while package-owned stylesheets own the corresponding rules.
+- Stylesheet delivery was unspecified — resolved that baseline icon styles are auto-included by Angular component metadata rather than requiring Consumer Applications to import package CSS.
+- Component style placement was unspecified — resolved that each generated icon component carries identical variant-specific `styles` metadata for its host and inner SVG classes.
+- Component style selector shape was unspecified — resolved that host rules use `:host.<variant-class>` while inner SVG rules use plain variant SVG class selectors.
+- Consumer override expectations were unspecified — resolved that public variant classes are intended for consumer sizing, color, and contextual styling, while overriding baseline rendering properties may require more specific CSS.
+- Release impact was unspecified — resolved that adding public variant CSS classes is a minor release, while future removal or renaming is a major release.
+- Default sizing release impact was unspecified — resolved that changing from flex-grow/container-filling defaults to **Content-Sized Icon Defaults** is a major rendering-contract change, with documented CSS recipes for opting back into container-filling behavior.
+- Container-filling opt-in API was unspecified — resolved that opt-in should be consumer CSS using existing public variant classes, not new built-in fill utility classes.
+- CSS class placement was unspecified — resolved with **Variant Host Class Contract** on component hosts only, using variant-level classes rather than per-icon classes by default.
+- CSS class stability was unspecified — resolved that **Variant Host Class Contract** is public styling API, so removing or renaming these classes is a breaking rendering contract change.
+- Host class responsibility was unspecified — resolved that variant host classes carry both variant identity and host layout, avoiding separate shared host layout classes.
+- SVG class responsibility was unspecified — resolved with **Variant SVG Class Contract**, using variant-specific SVG classes applied by shared SVG directives.
 - Upstream ingestion strategy was unspecified — resolved with a **Pinned Sync Pipeline** (sync script + committed generated outputs).
 - Cross-package generation strategy was unspecified — resolved with a **Parameterized Generation Core** plus thin per-package commands.
 - Variant source-ref coordination was unspecified — resolved with a **Shared Upstream Pin**.

@@ -21,6 +21,39 @@ Each icon component supports optional `ariaLabel` input:
 <msr-home-icon [ariaLabel]="'Home'" />
 ```
 
+## Styling
+
+Icon components are content-sized by default: each host renders as an `inline-flex` `1em` square, does not grow as a flex item, and inherits color from `currentColor`. The package exposes stable public CSS classes for contextual styling:
+
+- `.msr-icon` on each icon component host
+- `.msr-icon-svg` on the inner SVG element
+
+```css
+.toolbar .msr-icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  color: currentColor;
+}
+```
+
+The default `flex: 0 0 auto` keeps icons from absorbing extra width in flex parents that use layouts such as `justify-content: space-between`.
+
+To opt into filling a sized parent, use consumer CSS:
+
+```css
+.icon-box {
+  inline-size: 24px;
+  block-size: 24px;
+}
+
+.icon-box .msr-icon {
+  inline-size: 100%;
+  block-size: 100%;
+}
+```
+
+No package stylesheet import is required for baseline rendering.
+
 ## Angular compatibility matrix (`@captains-chest/material-symbols-rounded-icons`)
 
 > Tested in real Angular apps (`angular-16` … `angular-21`) with manual visual pages showing 10 outline/filled icon pairs side-by-side.

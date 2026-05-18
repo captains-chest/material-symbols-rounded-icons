@@ -3,10 +3,7 @@ import { Directive } from '@angular/core';
 @Directive({
   selector: 'svg[msrIconSvg]',
   host: {
-    '[style.width]': '"100%"',
-    '[style.height]': '"100%"',
-    '[style.fill]': '"currentColor"',
-    '[style.display]': '"block"',
+    class: 'msr-icon-svg',
   },
 })
 export class MsrIconSvgDirective {}
