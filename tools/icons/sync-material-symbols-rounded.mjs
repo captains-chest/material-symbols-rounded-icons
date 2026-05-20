@@ -49,10 +49,6 @@ import { ${classPrefix}IconSvgDirective } from '../../shared/${directivePrefix}-
     :host.${hostClass} {
       display: inline-flex;
       flex: 0 0 auto;
-      inline-size: 1em;
-      block-size: 1em;
-      min-inline-size: 0;
-      min-block-size: 0;
     }
 
     .${svgClass} {
