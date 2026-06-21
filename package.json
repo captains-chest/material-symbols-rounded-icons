@@ -20,7 +20,9 @@
     "build-storybook": "ng run icon-pack:build-storybook",
     "release:prepare": "pnpm test:security && pnpm verify:generated && pnpm build:lib && pnpm test:smoke",
     "release:check": "pnpm release:prepare && cd dist/material-symbols-rounded-icons && npm pack --dry-run && cd ../material-symbols-rounded-icons-filled && npm pack --dry-run",
-    "release:publish": "pnpm release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public --provenance && cd ../material-symbols-rounded-icons-filled && npm publish --access public --provenance"
+    "release:publish": "pnpm release:publish:local",
+    "release:publish:local": "pnpm release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public && cd ../material-symbols-rounded-icons-filled && npm publish --access public",
+    "release:publish:provenance": "pnpm release:prepare && cd dist/material-symbols-rounded-icons && npm publish --access public --provenance && cd ../material-symbols-rounded-icons-filled && npm publish --access public --provenance"
   },
   "private": true,
   "packageManager": "pnpm@11.1.2",
@@ -40,8 +42,8 @@
     "@angular/compiler-cli": "21.2.13",
     "@angular/localize": "21.2.13",
     "@angular/platform-browser-dynamic": "21.2.13",
-    "@storybook/addon-a11y": "^10.3.6",
-    "@storybook/angular": "^10.3.6",
+    "@storybook/addon-a11y": "^10.4.0",
+    "@storybook/angular": "^10.4.0",
     "@storybook/builder-vite": "^10.3.6",
     "ng-packagr": "^21.2.0",
     "prettier": "^3.8.1",
