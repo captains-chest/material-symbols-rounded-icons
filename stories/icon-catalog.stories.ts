@@ -105,7 +105,11 @@ type VariantMode = 'outline' | 'filled' | 'both';
       <div class="catalog-controls">
         <label class="catalog-control catalog-control--search">
           <span>Search icons</span>
-          <input [value]="query" (input)="setQuery($any($event.target).value)" placeholder="home, settings, account..." />
+          <input
+            [value]="query"
+            (input)="setQuery($any($event.target).value)"
+            placeholder="home, settings, account..."
+          />
         </label>
 
         <label class="catalog-control catalog-control--variant">
@@ -122,8 +126,16 @@ type VariantMode = 'outline' | 'filled' | 'both';
       @let visible = displayedNames();
 
       <div class="catalog-summary">
-        <div>Showing {{ visible.length }} sample icons of {{ filtered.length }} filtered ({{ names.length }} total)</div>
-        <div>Sample size: {{ sampleSize }} · Outline: {{ outlineNames.length }} · Filled: {{ filledNames.length }}</div>
+        <div>
+          Showing {{ visible.length }} sample icons of {{ filtered.length }} filtered ({{
+            names.length
+          }}
+          total)
+        </div>
+        <div>
+          Sample size: {{ sampleSize }} · Outline: {{ outlineNames.length }} · Filled:
+          {{ filledNames.length }}
+        </div>
       </div>
 
       <div class="catalog-grid">
@@ -154,12 +166,16 @@ type VariantMode = 'outline' | 'filled' | 'both';
                 <div class="catalog-icon-pair">
                   <div class="catalog-icon">
                     @if (hasOutline(name)) {
-                      <ng-container *ngComponentOutlet="resolveOutlineComponent(name)"></ng-container>
+                      <ng-container
+                        *ngComponentOutlet="resolveOutlineComponent(name)"
+                      ></ng-container>
                     }
                   </div>
                   <div class="catalog-icon">
                     @if (hasFilled(name)) {
-                      <ng-container *ngComponentOutlet="resolveFilledComponent(name)"></ng-container>
+                      <ng-container
+                        *ngComponentOutlet="resolveFilledComponent(name)"
+                      ></ng-container>
                     }
                   </div>
                 </div>
