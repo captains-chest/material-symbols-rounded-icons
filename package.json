@@ -27,25 +27,27 @@
   "private": true,
   "packageManager": "pnpm@11.1.2",
   "dependencies": {
-    "@angular/common": "22.0.2",
-    "@angular/core": "22.0.2",
-    "@angular/platform-browser": "22.0.2",
+    "@angular/common": "22.1.2",
+    "@angular/core": "22.1.2",
+    "@angular/platform-browser": "22.1.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.0.3",
-    "@angular/cli": "22.0.3",
-    "@angular/compiler": "22.0.2",
-    "@angular/compiler-cli": "22.0.2",
-    "@angular/localize": "22.0.2",
-    "@storybook/addon-a11y": "^10.4.6",
-    "@storybook/angular": "^10.4.6",
-    "@storybook/builder-vite": "^10.4.6",
-    "ng-packagr": "^22.0.0",
-    "prettier": "^3.8.1",
-    "storybook": "^10.4.6",
+    "@angular/animations": "22.1.2",
+    "@angular/build": "^22.1.4",
+    "@angular/cli": "22.1.4",
+    "@angular/compiler": "22.1.2",
+    "@angular/compiler-cli": "22.1.2",
+    "@angular/localize": "22.1.2",
+    "@angular/platform-browser-dynamic": "22.1.2",
+    "@storybook/addon-a11y": "^10.5.9",
+    "@storybook/angular": "^10.5.9",
+    "@storybook/builder-vite": "^10.5.9",
+    "ng-packagr": "^22.1.1",
+    "prettier": "^3.9.6",
+    "storybook": "^10.5.9",
     "typescript": "~6.0.3",
-    "vite": "^7.3.2"
+    "vite": "^8.2.1"
   }
 }
