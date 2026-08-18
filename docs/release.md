@@ -3,14 +3,37 @@
 This repository uses two separate governance models:
 
 - **Manual-first sync governance**: maintainers decide when to update the pinned upstream Material Symbols commit in `tools/icons/upstream.json`.
-- **Trusted publish governance**: packages are published from a repository-hosted CI runner on protected release tags, with npm provenance attached.
+- **Trusted publish governance**: packages are published from GitHub Actions on protected release tags, using npm trusted publishing (OIDC) with provenance attached.
+
+Packages are published only to the public npmjs registry (`https://registry.npmjs.org`). They are not published to GitHub Packages.
 
 ## Prerequisites
 
-1. npm trusted publishing or `NPM_TOKEN` is configured in the repository-hosted CI environment.
-2. The publish environment requires repository-owner approval.
-3. Release tags matching `v*.*.*` are protected.
-4. The outline and filled package manifests use the same version.
+Complete these once after moving the repository to GitHub. npm does not validate the trusted-publisher form when you save it; a mismatch only fails at publish time.
+
+1. Create a GitHub Environment named `npm-publish` and require repository-owner approval.
+2. Protect release tags matching `v*.*.*`.
+3. On each npm package, add a trusted publisher with **GitHub Actions** as the provider:
+
+   | Field | Value |
+   | --- | --- |
+   | Organization or user | `captains-chest` |
+   | Repository | `material-symbols-rounded-icons` |
+   | Workflow filename | `publish.yml` |
+   | Environment name | `npm-publish` |
+   | Allowed actions | `npm publish` |
+
+   Configure both packages:
+
+   - [@captains-chest/material-symbols-rounded-icons](https://www.npmjs.com/package/@captains-chest/material-symbols-rounded-icons)
+   - [@captains-chest/material-symbols-rounded-icons-filled](https://www.npmjs.com/package/@captains-chest/material-symbols-rounded-icons-filled)
+
+   Open **Settings → Trusted Publisher**, choose **GitHub Actions**, and enter the values above exactly. The workflow filename is only `publish.yml`, not the `.github/workflows/` path.
+4. After a successful trusted publish, optionally set **Publishing access** to **Require two-factor authentication and disallow tokens**. Do this only after the OIDC path has published once, or emergency local publish will be blocked.
+5. The outline and filled package manifests must use the same version.
+6. Each published `package.json` `repository.url` must be the GitHub HTTPS URL. Trusted publishing generates provenance, and npm rejects the publish when that field does not match the GitHub repository.
+
+Do not add an `NPM_TOKEN` repository secret for the normal publish path. The publish workflow authenticates with a short-lived OIDC token from GitHub Actions.
 
 ## Validate before release
 
@@ -54,8 +77,8 @@ The sync command enforces the Shared Upstream Pin policy before generation. The 
    git push origin v1.0.1
    ```
 
-4. The repository-hosted CI publish job runs in the protected publish environment.
-5. The job verifies tag/package version lockstep, runs release checks, then publishes both packages with `npm publish --provenance`.
+4. GitHub Actions runs `.github/workflows/publish.yml` in the `npm-publish` environment.
+5. The workflow verifies tag/package version lockstep, runs release checks, then publishes both packages to `https://registry.npmjs.org`. Provenance is generated automatically because the job uses trusted publishing.
 
 ## Lockstep variant versioning
 
@@ -73,7 +96,7 @@ Local publishing is not the normal trust path. If maintainers must publish manua
 pnpm release:publish
 ```
 
-This still runs hardening checks first and passes `--provenance` to npm where supported, but repository owners should prefer the protected CI workflow for repeatable artifact provenance.
+This still runs hardening checks first. Local publish cannot use GitHub OIDC, so it still needs an npm login or token. Prefer the protected GitHub Actions workflow.
 
 ## Suggested post-publish checks
 

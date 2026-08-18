@@ -1,0 +1,53 @@
+name: Publish packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish dual packages with provenance
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    if: github.repository_owner == 'captains-chest'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Upgrade npm for trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify release tag matches package versions
+        run: node tools/release/verify-lockstep-version.mjs "$GITHUB_REF_NAME"
+
+      - name: Run release checks
+        run: pnpm release:check
+
+      - name: Publish outline package
+        run: npm publish --access public
+        working-directory: dist/material-symbols-rounded-icons
+
+      - name: Publish filled package
+        run: npm publish --access public
+        working-directory: dist/material-symbols-rounded-icons-filled
