@@ -1,15 +1,16 @@
 {
   "name": "@captains-chest/material-symbols-rounded-icons-filled",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Standalone Angular Material Symbols Rounded filled icon components with embedded SVG templates.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "ssh://git@codeberg.org/captainDuckay/material-symbols-rounded-icons.git"
+    "url": "https://github.com/captains-chest/material-symbols-rounded-icons.git",
+    "directory": "projects/material-symbols-rounded-icons-filled"
   },
-  "homepage": "https://codeberg.org/captainDuckay/material-symbols-rounded-icons",
+  "homepage": "https://github.com/captains-chest/material-symbols-rounded-icons",
   "bugs": {
-    "url": "https://codeberg.org/captainDuckay/material-symbols-rounded-icons/issues"
+    "url": "https://github.com/captains-chest/material-symbols-rounded-icons/issues"
   },
   "keywords": [
     "angular",
@@ -20,7 +21,8 @@
     "filled"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "files": [
     "fesm2022/*.mjs",
