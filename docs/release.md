@@ -3,7 +3,7 @@
 This repository uses two separate governance models:
 
 - **Manual-first sync governance**: maintainers decide when to update the pinned upstream Material Symbols commit in `tools/icons/upstream.json`.
-- **Trusted publish governance**: packages are published from GitHub Actions on protected release tags, using npm trusted publishing (OIDC) with provenance attached.
+- **Trusted publish governance**: packages are published from GitHub Actions when a GitHub release is published for a protected release tag, using npm trusted publishing (OIDC) with provenance attached.
 
 Packages are published only to the public npmjs registry (`https://registry.npmjs.org`). They are not published to GitHub Packages.
 
@@ -69,16 +69,17 @@ The sync command enforces the Shared Upstream Pin policy before generation. The 
    pnpm release:check
    ```
 
-2. Commit the version bump and generated-source state.
-3. Create and push a protected tag matching the lockstep package version:
+2. Bump `version` in both `projects/*/package.json` to the same value, open a PR, and merge it once CI is green.
+3. Create and publish a GitHub release whose tag matches the lockstep package version. The tag must point at the merged version-bump commit on `main`:
 
    ```bash
-   git tag v1.0.1
-   git push origin v1.0.1
+   gh release create v1.0.1 --target main --title v1.0.1 --notes-file notes.md
    ```
 
-4. GitHub Actions runs `.github/workflows/publish.yml` in the `npm-publish` environment.
-5. The workflow verifies tag/package version lockstep, runs release checks, then publishes both packages to `https://registry.npmjs.org`. Provenance is generated automatically because the job uses trusted publishing.
+   Pushing a tag alone does not publish. Saving a draft release does not trigger it either. Only a **published** release does.
+
+4. GitHub Actions runs `.github/workflows/publish.yml` (trigger: `release: types: [published]`) in the `npm-publish` environment. An owner must approve the deployment.
+5. The workflow checks out the release tag (`github.event.release.tag_name`), verifies tag/package version lockstep against that tag, runs release checks, then publishes both packages to `https://registry.npmjs.org`. Provenance is generated automatically because the job uses trusted publishing.
 
 ## Lockstep variant versioning
 

@@ -1,9 +1,8 @@
 name: Publish packages
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -16,8 +15,10 @@ jobs:
     environment: npm-publish
     if: github.repository_owner == 'captains-chest'
     steps:
-      - name: Check out repository
+      - name: Check out release tag
         uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ github.event.release.tag_name }}
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -39,7 +40,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Verify release tag matches package versions
-        run: node tools/release/verify-lockstep-version.mjs "$GITHUB_REF_NAME"
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: node tools/release/verify-lockstep-version.mjs "$RELEASE_TAG"
 
       - name: Run release checks
         run: pnpm release:check
