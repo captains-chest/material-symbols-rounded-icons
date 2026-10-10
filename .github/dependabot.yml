@@ -1,0 +1,60 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Copenhagen"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      # Minor and patch updates are grouped. Major updates (including Angular
+      # majors: @angular/*, @angular-devkit/*, @schematics/angular, ng-packagr)
+      # are never grouped and arrive as separate PRs.
+      npm-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Publishable library packages: "widen" keeps existing ranges and only
+  # widens them to admit new versions, so peer ranges are never narrowed.
+  - package-ecosystem: "npm"
+    directories:
+      - "/projects/material-symbols-rounded-icons"
+      - "/projects/material-symbols-rounded-icons-filled"
+    versioning-strategy: "widen"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Copenhagen"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      library-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Copenhagen"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      github-actions-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
