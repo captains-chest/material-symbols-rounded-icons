@@ -2,6 +2,8 @@
 
 Standalone Angular outline icon components generated from Material Symbols Rounded.
 
+Browse all icons in the Storybook catalog: https://icons.captains-chest.com
+
 ## Usage
 
 ```ts
