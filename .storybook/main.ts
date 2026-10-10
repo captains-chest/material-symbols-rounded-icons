@@ -13,6 +13,14 @@ const config: StorybookConfig = {
   },
   async viteFinal(baseConfig: UserConfig) {
     return mergeConfig(baseConfig, {
+      // Vite 8 transpiles TS with Oxc, which leaves decorators untouched unless
+      // legacy (experimentalDecorators) lowering is enabled. Without this, the
+      // stories' @Component ships as raw `@n(...)` and the chunk fails to parse.
+      oxc: {
+        decorator: {
+          legacy: true,
+        },
+      },
       define: {
         STORYBOOK_ANGULAR_OPTIONS: {
           experimentalZoneless: true,
