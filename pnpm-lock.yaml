@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  webpack-dev-middleware: 8.3.0
+
 importers:
 
   .:
@@ -2951,9 +2954,6 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
-  colorette@2.0.20:
-    resolution: {integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==}
-
   colorjs.io@0.7.1:
     resolution: {integrity: sha512-LY7OHnJZxHwT5UlzNa9bbhHHDbzB6yE5+3MIPwJEQKRvSCt/T4G7epsj+9j2BExUIIfXFIJGsIXUKdfrK9Q5tA==}
 
@@ -5171,15 +5171,6 @@ packages:
 
   weak-lru-cache@1.2.2:
     resolution: {integrity: sha512-DEAoo25RfSYMuTGc9vPJzZcZullwIqRDSI9LOy+fkCJPi6hykCnfKaXTuPBDuXAUcqHXyOgFtHNp/kB2FjYHbw==}
-
-  webpack-dev-middleware@6.1.3:
-    resolution: {integrity: sha512-A4ChP0Qj8oGociTs6UdlRUGANIGrCDL3y+pmQMc+dSsraXHCatFpmMey4mYELA+juqwUqwQsUgJJISXl1KWmiw==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      webpack:
-        optional: true
 
   webpack-dev-middleware@8.3.0:
     resolution: {integrity: sha512-jFNNMB29ugmkEUFW9cpWNqcWFQNwuMTMVoRpKVAiz/5nh3gA4x9x6DRPhNHGc/SLre7pEP9yrAPDAmCvdCblKg==}
@@ -7448,7 +7439,7 @@ snapshots:
       terser-webpack-plugin: 5.6.1(esbuild@0.28.2)(postcss@8.5.28)(webpack@5.111.1(esbuild@0.28.2)(postcss@8.5.28))
       ts-dedent: 2.3.0
       webpack: 5.111.1(esbuild@0.28.2)(postcss@8.5.28)
-      webpack-dev-middleware: 6.1.3(webpack@5.111.1(esbuild@0.28.2)(postcss@8.5.28))
+      webpack-dev-middleware: 8.3.0(webpack@5.111.1(esbuild@0.28.2)(postcss@8.5.28))
       webpack-hot-middleware: 2.26.1
       webpack-virtual-modules: 0.6.2
     optionalDependencies:
@@ -8040,8 +8031,6 @@ snapshots:
       color-name: 1.1.4
 
   color-name@1.1.4: {}
-
-  colorette@2.0.20: {}
 
   colorjs.io@0.7.1: {}
 
@@ -9507,7 +9496,7 @@ snapshots:
       adjust-sourcemap-loader: 4.0.0
       convert-source-map: 1.9.0
       loader-utils: 2.0.4
-      postcss: 8.5.28
+      postcss: 8.5.29
       source-map: 0.6.1
 
   restore-cursor@5.1.0:
@@ -10160,16 +10149,6 @@ snapshots:
 
   weak-lru-cache@1.2.2:
     optional: true
-
-  webpack-dev-middleware@6.1.3(webpack@5.111.1(esbuild@0.28.2)(postcss@8.5.28)):
-    dependencies:
-      colorette: 2.0.20
-      memfs: 3.5.3
-      mime-types: 2.1.35
-      range-parser: 1.3.0
-      schema-utils: 4.5.0
-    optionalDependencies:
-      webpack: 5.111.1(esbuild@0.28.2)(postcss@8.5.28)
 
   webpack-dev-middleware@8.3.0(webpack@5.111.0(esbuild@0.28.2)(postcss@8.5.28)):
     dependencies:
