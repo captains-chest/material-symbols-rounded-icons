@@ -2,6 +2,8 @@
 
 Angular workspace for publishable Material Symbols Rounded icon libraries (outline + filled) with a Storybook-only playground.
 
+Browse the icon catalog in Storybook: https://icons.captains-chest.com
+
 ## Workspace shape
 
 - `projects/material-symbols-rounded-icons`: publishable outline standalone component library
