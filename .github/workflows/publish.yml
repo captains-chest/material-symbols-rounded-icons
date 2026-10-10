@@ -17,7 +17,7 @@ jobs:
     if: github.repository_owner == 'captains-chest'
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
